@@ -1,7 +1,7 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "Next.js + NextUI",
+  name: "Mood-Track",
   description: "Make beautiful websites regardless of your design experience.",
   navItems: [
     {
@@ -46,7 +46,7 @@ export const siteConfig = {
   links: {
     github: "https://github.com/alanndockk3/MoodTrack",
     twitter: "https://twitter.com/getnextui",
-    docs: "https://nextui.org",
+    docs: "https://developer.spotify.com/documentation/web-api",
     discord: "https://discord.gg/9b6yyZKmH4",
     sponsor: "https://patreon.com/jrgarciadev",
   },

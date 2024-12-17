@@ -41,7 +41,7 @@ export default function Home() {
           href={siteConfig.links.github}
         >
           <GithubIcon size={20} />
-          GitHub
+          GitHub Repository
         </Link>
       </div>
 

@@ -3,6 +3,9 @@
 # env
 firebaseConfig.js
 
+# Firebase Functions
+/functions
+
 # dependencies
 /node_modules
 /.pnp

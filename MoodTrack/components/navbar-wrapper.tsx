@@ -7,7 +7,7 @@ export default function NavbarWrapper({ children }: { children: React.ReactNode 
   const pathname = usePathname();
 
   // Routes where the Navbar should not be displayed
-  const hideNavbarOnRoutes = ["/dashboard"];
+  const hideNavbarOnRoutes = [""];
 
   return (
     <div className="relative flex flex-col h-screen">

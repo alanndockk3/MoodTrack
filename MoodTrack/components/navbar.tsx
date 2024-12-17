@@ -7,74 +7,78 @@ import {
   NavbarMenuToggle,
   NavbarBrand,
   NavbarItem,
-  NavbarMenuItem,
 } from "@nextui-org/navbar";
 import { Button } from "@nextui-org/button";
-import { Kbd } from "@nextui-org/kbd";
 import { Link } from "@nextui-org/link";
-import { Input } from "@nextui-org/input";
-import { link as linkStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
-import { usePathname } from "next/navigation"; // Import usePathname
-
-import { siteConfig } from "@/config/site";
+import { usePathname, useRouter } from "next/navigation";
+import { GithubIcon } from "@/components/icons";
 import { ThemeSwitch } from "@/components/theme-switch";
-import { GithubIcon, SearchIcon } from "@/components/icons";
+import { siteConfig } from "@/config/site";
+import useAuthStore from "@/store/useAuthStore";
 
 export const Navbar = () => {
   const pathname = usePathname();
+  const router = useRouter();
 
-  // Check if the current route is login or register
+  const { user, logOut } = useAuthStore();
+
+  const handleLogout = async () => {
+    try {
+      await logOut();
+      router.push("/");
+    } catch (err) {
+      console.error("Failed to log out:", err);
+    }
+  };
+
   const isAuthPage = pathname === "/auth/login" || pathname === "/auth/register";
-
-  const searchInput = (
-    <Input
-      aria-label="Search"
-      classNames={{
-        inputWrapper: "bg-default-100",
-        input: "text-sm",
-      }}
-      endContent={
-        <Kbd className="hidden lg:inline-block" keys={["command"]}>
-          K
-        </Kbd>
-      }
-      labelPlacement="outside"
-      placeholder="Search..."
-      startContent={
-        <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
-      }
-      type="search"
-    />
-  );
+  const isDashboardPage = pathname.startsWith("/dashboard");
 
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
+      {/* Navbar Brand */}
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
-          <NextLink className="flex justify-start items-center gap-1" href="/">
-            <p className="font-bold text-inherit">MoodTrack</p>
+          <NextLink
+            className="flex justify-start items-center gap-1"
+            href={isDashboardPage ? "/dashboard" : "/"}
+          >
+            <p className="font-bold text-inherit">
+              {isDashboardPage ? "MoodTrack Dashboard" : "MoodTrack"}
+            </p>
           </NextLink>
         </NavbarBrand>
+
+        {/* Docs or Playlists Link */}
         <ul className="hidden lg:flex gap-4 justify-start ml-2">
-          {siteConfig.navItems.map((item) => (
-            <NavbarItem key={item.href}>
+          <NavbarItem>
+            {isDashboardPage ? (
               <NextLink
                 className={clsx(
-                  linkStyles({ color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium",
+                  "text-foreground hover:text-primary font-medium"
                 )}
-                color="foreground"
-                href={item.href}
+                href="/dashboard/playlists"
               >
-                {item.label}
+                Playlists
               </NextLink>
-            </NavbarItem>
-          ))}
+            ) : (
+              <Link
+                isExternal
+                className={clsx(
+                  "text-foreground hover:text-primary font-medium"
+                )}
+                href={siteConfig.links.docs} // External link
+              >
+                Docs
+              </Link>
+            )}
+          </NavbarItem>
         </ul>
       </NavbarContent>
 
+      {/* Auth and Theme Controls */}
       <NavbarContent
         className="hidden sm:flex basis-1/5 sm:basis-full"
         justify="end"
@@ -86,51 +90,36 @@ export const Navbar = () => {
           <ThemeSwitch />
         </NavbarItem>
 
-        {/* Conditionally render Login Button */}
+        {/* Login/Logout Button */}
         {!isAuthPage && (
           <NavbarItem className="hidden md:flex">
-            <Link href="/auth/login">
+            {user ? (
               <Button
-                className="text-sm font-normal text-default-600 bg-default-100"
+                onClick={handleLogout}
+                className="text-sm font-normal text-default-600 bg-danger-100"
                 variant="flat"
               >
-                Login
+                Logout
               </Button>
-            </Link>
+            ) : (
+              <Link href="/auth/login">
+                <Button
+                  className="text-sm font-normal text-default-600 bg-default-100"
+                  variant="flat"
+                >
+                  Login
+                </Button>
+              </Link>
+            )}
           </NavbarItem>
         )}
       </NavbarContent>
 
+      {/* Responsive Menu */}
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <Link isExternal aria-label="Github" href={siteConfig.links.github}>
-          <GithubIcon className="text-default-500" />
-        </Link>
         <ThemeSwitch />
         <NavbarMenuToggle />
       </NavbarContent>
-
-      <NavbarMenu>
-        {searchInput}
-        <div className="mx-4 mt-2 flex flex-col gap-2">
-          {siteConfig.navMenuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                color={
-                  index === 2
-                    ? "primary"
-                    : index === siteConfig.navMenuItems.length - 1
-                    ? "danger"
-                    : "foreground"
-                }
-                href="#"
-                size="lg"
-              >
-                {item.label}
-              </Link>
-            </NavbarMenuItem>
-          ))}
-        </div>
-      </NavbarMenu>
     </NextUINavbar>
   );
 };

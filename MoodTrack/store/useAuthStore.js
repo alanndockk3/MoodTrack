@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { auth } from "../firebaseConfig";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import { db } from "../firebaseConfig";
-import { doc, setDoc } from "firebase/firestore";S
+import { doc, setDoc } from "firebase/firestore";
 
 const useAuthStore = create((set) => ({
   user: null,
