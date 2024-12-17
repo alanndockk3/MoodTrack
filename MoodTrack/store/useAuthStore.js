@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { auth } from "../firebaseConfig";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import { db } from "../firebaseConfig";
+import { doc, setDoc } from "firebase/firestore";S
 
 const useAuthStore = create((set) => ({
   user: null,
@@ -25,6 +26,7 @@ const useAuthStore = create((set) => ({
 
       set({ user, error: null });
     } catch (err) {
+      console.error("Error signing up:", err.message);
       set({ error: err.message });
     }
   },
