@@ -4,9 +4,11 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="w-full px-8 py-12">
-      {/* Full-width container for children */}
-      <div className="max-w-screen-2xl mx-auto">{children}</div>
+    <div className="w-full h-screen overflow-hidden px-8 py-4 no-scrollbar">
+      {/* Centered container with responsive max-width */}
+      <div className="max-w-screen-2xl mx-auto flex flex-col h-full overflow-hidden">
+        {children}
+      </div>
     </div>
   );
 }

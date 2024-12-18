@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { db } from "@/firebaseConfig";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 
 const usePlaylistStore = create((set, get) => ({
   recommendations: [], // List of recommended playlists
@@ -55,6 +55,39 @@ const usePlaylistStore = create((set, get) => ({
         (item) => item.name !== playlist.name
       ),
     }));
+  },
+
+  // Fetch liked playlists from Firestore
+  fetchLikedPlaylists: async () => {
+    try {
+      const likedRef = collection(db, "playlists");
+      const querySnapshot = await getDocs(likedRef);
+      const likedPlaylists = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      console.log("Fetched liked playlists:", likedPlaylists);
+
+      set({ likedPlaylists });
+    } catch (error) {
+      console.error("Error fetching liked playlists:", error);
+    }
+  },
+  // Remove liked playlist from Firestore and state
+  removeLikedPlaylist: async (playlistId) => {
+    try {
+      const playlistRef = doc(db, "playlists", playlistId);
+      await deleteDoc(playlistRef);
+
+      set((state) => ({
+        likedPlaylists: state.likedPlaylists.filter(
+          (playlist) => playlist.id !== playlistId
+        ),
+      }));
+    } catch (error) {
+      console.error("Error deleting playlist:", error);
+    }
   },
 }));
 
