@@ -1,6 +1,7 @@
 import { create } from "zustand";
-import { db } from "@/firebaseConfig";
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import { auth } from "../firebaseConfig";
+import { db } from "../firebaseConfig";
+import { collection, addDoc, getDocs, doc, deleteDoc } from "firebase/firestore";
 
 const usePlaylistStore = create((set, get) => ({
   recommendations: [], // List of recommended playlists
@@ -29,24 +30,33 @@ const usePlaylistStore = create((set, get) => ({
   // Add playlist to the liked collection
   likePlaylist: async (playlist) => {
     try {
-      const likedRef = collection(db, "playlists");
-      await addDoc(likedRef, {
-        name: playlist.name,
+      const user = auth.currentUser; // Get authenticated user
+      if (!user) {
+        throw new Error("User is not authenticated");
+      }
+
+      // Prepare the data object with all necessary fields
+      const data = {
+        user_id: user.uid,
+        playlist_name: playlist.name,
         description: playlist.description,
         url: playlist.url,
-        liked_at: new Date(),
-      });
+        timestamp: new Date(),
+      };
+
+      const playlistsRef = collection(db, "playlists");
+      await addDoc(playlistsRef, data);
 
       set((state) => ({
-        likedPlaylists: [...state.likedPlaylists, playlist],
-        recommendations: state.recommendations.filter(
-          (item) => item.name !== playlist.name
-        ),
+        likedPlaylists: [...state.likedPlaylists, data],
       }));
+      console.log("Playlist successfully saved:", data);
     } catch (error) {
-      console.error("Error adding playlist to Firestore:", error);
+      console.error("Error in likePlaylist:", error.message);
+      throw error; // Ensure errors propagate for visibility
     }
   },
+  
 
   // Remove disliked playlists
   dislikePlaylist: (playlist) => {

@@ -3,11 +3,12 @@
 import { useState } from "react";
 import { getAuth } from "firebase/auth";
 import useFeedbackStore from "@/store/useFeedbackStore";
+import usePlaylistStore from "@/store/usePlaylistStore"
 import FormSection from "@/components/FormSection";
 import PlaylistList from "@/components/PlaylistList";
 
 export default function DashboardPage() {
-  const { addFeedback } = useFeedbackStore();
+ const { likePlaylist } = usePlaylistStore();
   const [recommendations, setRecommendations] = useState([]);
   const [formData, setFormData] = useState({
     feeling: "",
@@ -42,30 +43,26 @@ export default function DashboardPage() {
 
 
   // Handle user feedback (like/dislike)
-  const handleFeedback = async (playlistName, feedbackType) => {
+  const handleFeedback = async (playlist, feedbackType) => {
     try {
       const auth = getAuth();
-      const user = auth.currentUser; // Fetch current user
+      const user = auth.currentUser;
       if (user) {
         const userId = user.uid;
-        console.log(`Sending feedback: ${feedbackType} for ${playlistName}`);
-        await addFeedback(playlistName, feedbackType, userId);
-
+        console.log(`Sending feedback: ${feedbackType} for`, playlist);
+  
+        if (feedbackType === "like") {
+          await likePlaylist({
+            name: playlist.name,
+            description: playlist.description,
+            url: playlist.url,
+          });
+        }
+  
         // Remove playlist from recommendations
         setRecommendations((prev) =>
-          prev.filter((playlist) => playlist.name !== playlistName)
+          prev.filter((item) => item.name !== playlist.name)
         );
-
-        // Reset formData
-        setFormData({
-          feeling: "",
-          energy: "",
-          genre: "",
-          timeFrame: "",
-          popularity: "",
-          alignMood: "Yes",
-          activity: "",
-        });
       } else {
         console.error("No authenticated user. Please log in.");
       }
@@ -73,6 +70,9 @@ export default function DashboardPage() {
       console.error("Failed to send feedback:", error);
     }
   };
+  
+  
+  
 
   const handleSelect = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));

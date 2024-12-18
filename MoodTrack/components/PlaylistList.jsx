@@ -4,11 +4,11 @@ import PlaylistCard from "@/components/PlaylistCard";
 
 const PlaylistList = ({ recommendations, handleFeedback }) => {
   return (
-      <section
-        className="
-          flex flex-col gap-6 bg-content1 p-4 rounded-lg 
-          shadow-md dark:shadow-lg border border-gray-100 dark:border-0"
-     >
+    <section
+      className="
+        flex flex-col gap-6 bg-content1 p-4 rounded-lg 
+        shadow-md dark:shadow-lg border border-gray-100 dark:border-0"
+    >
       {/* Header */}
       <h2 className="text-2xl font-semibold text-center">Your Playlists</h2>
 
@@ -25,8 +25,8 @@ const PlaylistList = ({ recommendations, handleFeedback }) => {
                 name={playlist.name}
                 description={playlist.description}
                 url={playlist.url}
-                onLike={() => handleFeedback(playlist.name, "like")}
-                onDislike={() => handleFeedback(playlist.name, "dislike")}
+                onLike={() => handleFeedback(playlist, "like")} // Pass the full playlist object
+                onDislike={() => handleFeedback(playlist, "dislike")}
               />
             ))}
           </div>
@@ -35,7 +35,6 @@ const PlaylistList = ({ recommendations, handleFeedback }) => {
         )}
       </div>
     </section>
-
   );
 };
 
