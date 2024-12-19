@@ -25,15 +25,18 @@ export default function DashboardPage() {
   // Fetch playlist recommendations
   const fetchRecommendation = async () => {
     try {
-      const response = await await fetch(`${apiUrl}/recommend`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/recommend`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
       const data = await response.json();
       if (Array.isArray(data)) {
-        // Spread the array into recommendations
         setRecommendations((prev) => [...prev, ...data]);
       } else {
         console.error("Invalid data format received:", data);
@@ -42,6 +45,7 @@ export default function DashboardPage() {
       console.error("Error fetching recommendation:", error);
     }
   };
+  
 
 
   // Handle user feedback (like/dislike)
