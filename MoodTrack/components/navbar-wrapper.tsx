@@ -1,9 +1,14 @@
 "use client";
 
-import { Navbar } from "@/components/navbar";
 import { usePathname } from "next/navigation";
 
-export default function NavbarWrapper({ children }: { children: React.ReactNode }) {
+import { Navbar } from "@/components/navbar";
+
+export default function NavbarWrapper({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const pathname = usePathname();
 
   // Routes where the Navbar should not be displayed

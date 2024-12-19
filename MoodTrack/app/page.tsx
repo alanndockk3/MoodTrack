@@ -2,10 +2,9 @@ import { Link } from "@nextui-org/link";
 import { Snippet } from "@nextui-org/snippet";
 import { Code } from "@nextui-org/code";
 import { button as buttonStyles } from "@nextui-org/theme";
-import { Navbar } from "@/components/navbar";
 
 import { siteConfig } from "@/config/site";
-import { title, subtitle } from "@/components/primitives";
+import { title } from "@/components/primitives";
 import { GithubIcon } from "@/components/icons";
 
 export default function Home() {
@@ -15,9 +14,7 @@ export default function Home() {
         <span className={title()}>Make&nbsp;</span>
         <span className={title({ color: "violet" })}>music&nbsp;</span>
         <br />
-        <span className={title()}>
-          more personal.
-        </span>
+        <span className={title()}>more personal.</span>
         {/* <div className={subtitle({ class: "mt-4" })}>
           Beautiful, fast and modern React UI library.
         </div> */}
@@ -48,7 +45,8 @@ export default function Home() {
       <div className="mt-8">
         <Snippet hideCopyButton hideSymbol variant="bordered">
           <span>
-            Get started by  <Code color="primary">  creating an account </Code> or <Code color="secondary"> logging in</Code>
+            Get started by <Code color="primary"> creating an account </Code> or{" "}
+            <Code color="secondary"> logging in</Code>
           </span>
         </Snippet>
       </div>

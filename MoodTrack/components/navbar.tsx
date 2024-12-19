@@ -3,7 +3,6 @@
 import {
   Navbar as NextUINavbar,
   NavbarContent,
-  NavbarMenu,
   NavbarMenuToggle,
   NavbarBrand,
   NavbarItem,
@@ -13,6 +12,7 @@ import { Link } from "@nextui-org/link";
 import NextLink from "next/link";
 import clsx from "clsx";
 import { usePathname, useRouter } from "next/navigation";
+
 import { GithubIcon } from "@/components/icons";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { siteConfig } from "@/config/site";
@@ -33,7 +33,8 @@ export const Navbar = () => {
     }
   };
 
-  const isAuthPage = pathname === "/auth/login" || pathname === "/auth/register";
+  const isAuthPage =
+    pathname === "/auth/login" || pathname === "/auth/register";
   const isDashboardPage = pathname.startsWith("/dashboard");
 
   return (
@@ -57,7 +58,7 @@ export const Navbar = () => {
             {isDashboardPage ? (
               <NextLink
                 className={clsx(
-                  "text-foreground hover:text-primary font-medium"
+                  "text-foreground hover:text-primary font-medium",
                 )}
                 href="/dashboard/playlists"
               >
@@ -67,7 +68,7 @@ export const Navbar = () => {
               <Link
                 isExternal
                 className={clsx(
-                  "text-foreground hover:text-primary font-medium"
+                  "text-foreground hover:text-primary font-medium",
                 )}
                 href={siteConfig.links.docs} // External link
               >
@@ -95,9 +96,9 @@ export const Navbar = () => {
           <NavbarItem className="hidden md:flex">
             {user ? (
               <Button
-                onClick={handleLogout}
                 className="text-sm font-normal text-default-600 bg-danger-100"
                 variant="flat"
+                onClick={handleLogout}
               >
                 Logout
               </Button>
