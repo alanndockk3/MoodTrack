@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { auth } from "../firebaseConfig";
 import { db } from "../firebaseConfig";
-import { collection, addDoc, getDocs, doc, deleteDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs, doc, deleteDoc , query, where} from "firebase/firestore";
 
 const usePlaylistStore = create((set, get) => ({
   recommendations: [], // List of recommended playlists
@@ -70,15 +70,36 @@ const usePlaylistStore = create((set, get) => ({
   // Fetch liked playlists from Firestore
   fetchLikedPlaylists: async () => {
     try {
+      // Check if user is authenticated
+      const user = auth.currentUser;
+  
+      if (!user) {
+        console.error("User is not authenticated. Please log in.");
+        return;
+      }
+  
+      // Reference the 'playlists' collection and filter by user_id
       const likedRef = collection(db, "playlists");
-      const querySnapshot = await getDocs(likedRef);
+      const q = query(likedRef, where("user_id", "==", user.uid));
+  
+      console.log("Fetching playlists for user_id:", user.uid);
+  
+      const querySnapshot = await getDocs(q);
+  
+      if (querySnapshot.empty) {
+        console.warn("No playlists found for user.");
+        set({ likedPlaylists: [] });
+        return;
+      }
+  
+      // Map documents to the likedPlaylists array
       const likedPlaylists = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-
+  
       console.log("Fetched liked playlists:", likedPlaylists);
-
+  
       set({ likedPlaylists });
     } catch (error) {
       console.error("Error fetching liked playlists:", error);
