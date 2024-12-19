@@ -7,8 +7,10 @@ import usePlaylistStore from "@/store/usePlaylistStore"
 import FormSection from "@/components/FormSection";
 import PlaylistList from "@/components/PlaylistList";
 
+
 export default function DashboardPage() {
- const { likePlaylist } = usePlaylistStore();
+  const { likePlaylist } = usePlaylistStore();
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [recommendations, setRecommendations] = useState([]);
   const [formData, setFormData] = useState({
     feeling: "",
@@ -23,7 +25,7 @@ export default function DashboardPage() {
   // Fetch playlist recommendations
   const fetchRecommendation = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:5000/recommend", {
+      const response = await await fetch(`${apiUrl}/recommend`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
