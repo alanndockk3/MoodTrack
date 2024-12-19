@@ -1,15 +1,18 @@
 from flask_cors import CORS
 from flask import Flask, request, jsonify
 import requests
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
-CORS(app, resources={r"/recommend": {"origins": "*"}})  # Enable CORS for /recommend endpoint
-
+CORS(app, resources={r"/recommend": {"origins": "*"}})
 
 # Spotify API Credentials
-SPOTIFY_CLIENT_ID = "83c6f2fa9c514ddabf0c4d138ecea3c2"
-SPOTIFY_CLIENT_SECRET = "6246f7d33d0d49dab91654dc9689fd83"
-
+SPOTIFY_CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID")
+SPOTIFY_CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET")
 
 # Function to get Spotify access token
 def get_spotify_token():
