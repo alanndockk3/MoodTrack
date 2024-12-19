@@ -8,7 +8,7 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, resources={r"/recommend": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": "https://mood-track-pink.vercel.app"}})
 
 # Spotify API Credentials
 SPOTIFY_CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID")
