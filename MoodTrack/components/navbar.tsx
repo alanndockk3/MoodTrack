@@ -72,7 +72,7 @@ export const Navbar = () => {
                 )}
                 href={siteConfig.links.docs} // External link
               >
-                Docs
+                Spotify API Docs
               </Link>
             )}
           </NavbarItem>
