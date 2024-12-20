@@ -12,6 +12,7 @@ export default function DashboardPage() {
   const { likePlaylist } = usePlaylistStore();
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [recommendations, setRecommendations] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     feeling: "",
     energy: "",
@@ -24,6 +25,7 @@ export default function DashboardPage() {
 
   // Fetch playlist recommendations
   const fetchRecommendation = async () => {
+    setLoading(true);
     try {
       const response = await await fetch(`${apiUrl}/recommend`, {
         method: "POST",
@@ -40,6 +42,8 @@ export default function DashboardPage() {
       }
     } catch (error) {
       console.error("Error fetching recommendation:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
