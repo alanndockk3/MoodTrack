@@ -6,8 +6,8 @@ const PlaylistList = ({ recommendations, handleFeedback, loading, progress }) =>
   return (
     <section
       className="
-        flex flex-col gap-6 bg-content1 p-4 rounded-lg 
-        shadow-md dark:shadow-lg border border-gray-100 dark:border-0"
+      bg-content1 p-4 rounded-lg overflow-hidden flex flex-col 
+      shadow-md dark:shadow-lg border border-gray-300 dark:border-0"
     >
       {/* Header */}
       <h2 className="text-2xl font-semibold text-center">Your Playlists</h2>
