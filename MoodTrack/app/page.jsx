@@ -34,6 +34,14 @@ export default function Home() {
           <GithubIcon size={20} />
           Frontend src code
         </a>
+        <a
+          target="_blank"
+          className={buttonStyles({ variant: "bordered", radius: "full" })}
+          href={siteConfig.links.readme}
+        >
+          <GithubIcon size={20} />
+          READEME
+        </a>
       </div>
 
       <div className="mt-8">

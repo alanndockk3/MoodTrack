@@ -46,6 +46,7 @@ export const siteConfig = {
   links: {
     github: "https://github.com/alanndockk3/MoodTrack/tree/main/MoodTrack",
     backend: "https://github.com/alanndockk3/MoodTrack/blob/server/server.py",
+    readme: "https://github.com/alanndockk3/MoodTrack/tree/main/MoodTrack#readme",
     twitter: "https://twitter.com/getnextui",
     docs: "https://developer.spotify.com/documentation/web-api",
     discord: "https://discord.gg/9b6yyZKmH4",
