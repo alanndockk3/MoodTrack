@@ -2,7 +2,7 @@ import React from "react";
 import PlaylistCard from "@/components/PlaylistCard";
 import CircularProgressBar from "@/components/CircularProgressBar";
 
-const PlaylistList = ({ recommendations, loading, progress }) => {
+const PlaylistList = ({ recommendations, handleFeedback, loading, progress }) => {
   return (
     <section
       className="
@@ -32,8 +32,8 @@ const PlaylistList = ({ recommendations, loading, progress }) => {
                   name={playlist.name}
                   description={playlist.description}
                   url={playlist.url}
-                  onLike={() => handleFeedback(playlist.name, "like")}
-                  onDislike={() => handleFeedback(playlist.name, "dislike")}
+                  onLike={() => handleFeedback(playlist, "like")}
+                  onDislike={() => handleFeedback(playlist, "dislike")}
                 />
               ))}
             </div>

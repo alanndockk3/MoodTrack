@@ -98,6 +98,7 @@ export default function DashboardPage() {
       {/* Right Section: Playlist Cards */}
       <PlaylistList
         recommendations={recommendations}
+        handleFeedback={handleFeedback}
         loading={loading}
         progress={progress}
       />
