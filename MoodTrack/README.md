@@ -1,5 +1,9 @@
 # MoodTrack
 
+### Logging in
+
+When logging in you can either use the account **testuser@iu.edu** with the password of **hoosiers2024** or create your own account with register
+
 ### Overview
 
 MoodTrack is an innovative music recommendation platform that personalizes playlists based on user moods, energy levels, activities, and preferences. The app integrates a responsive and modern frontend with a robust backend, providing users with seamless and curated music experiences powered by Spotify's API.
@@ -15,6 +19,7 @@ The decision tree accounts for various combinations of user inputs, including:
 - Specific genres, activities, and popularity preferences like hidden gems or trending hits.
 
 The backend server, built using Flask, processes the requests from the frontend and communicates with Spotify’s API to fetch playlists. The server also manages user feedback, allowing users to save or like playlists, which are stored in Firebase Firestore.
+
 
 ### Features
 
