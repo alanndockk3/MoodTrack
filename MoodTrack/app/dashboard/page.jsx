@@ -6,6 +6,7 @@ import useFeedbackStore from "@/store/useFeedbackStore";
 import usePlaylistStore from "@/store/usePlaylistStore"
 import FormSection from "@/components/FormSection";
 import PlaylistList from "@/components/PlaylistList";
+import CircularProgressBar from "@/components/CircularProgressBar"
 
 
 export default function DashboardPage() {
@@ -13,6 +14,7 @@ export default function DashboardPage() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [formData, setFormData] = useState({
     feeling: "",
     energy: "",
@@ -96,7 +98,8 @@ export default function DashboardPage() {
       {/* Right Section: Playlist Cards */}
       <PlaylistList
         recommendations={recommendations}
-        handleFeedback={handleFeedback}
+        loading={loading}
+        progress={progress}
       />
     </div>
   );

@@ -1,31 +1,28 @@
-"use client";
-
+import React from "react";
 import PlaylistCard from "@/components/PlaylistCard";
-import { CircularProgress } from "@nextui-org/react";
+import CircularProgressBar from "@/components/CircularProgressBar";
 
-const PlaylistList = ({ recommendations, handleFeedback, loading }) => {
+const PlaylistList = ({ recommendations, loading, progress }) => {
   return (
     <section
       className="
-          flex flex-col gap-6 bg-content1 p-4 rounded-lg 
-          shadow-md dark:shadow-lg border border-gray-100 dark:border-0"
+        flex flex-col gap-6 bg-content1 p-4 rounded-lg 
+        shadow-md dark:shadow-lg border border-gray-100 dark:border-0"
     >
       {/* Header */}
       <h2 className="text-2xl font-semibold text-center">Your Playlists</h2>
 
+      {/* Loading State */}
       {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <CircularProgress
-            aria-label="Loading..."
-            color="warning"
-            showValueLabel={false}
-            size="lg"
-          />
+        <div className="flex flex-col items-center justify-center min-h-[300px]">
+          <CircularProgressBar progress={progress} />
+          <p className="mt-4 text-gray-500">Loading recommendations...</p>
         </div>
       ) : (
         <div
-          className="flex-1 overflow-y-auto max-h-[500px] px-2 scrollbar scrollbar-thin 
-          scrollbar-thumb-gray-400 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800"
+          className="
+            flex-1 overflow-y-auto max-h-[500px] px-2 scrollbar scrollbar-thin 
+            scrollbar-thumb-gray-400 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800"
         >
           {recommendations.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -41,9 +38,7 @@ const PlaylistList = ({ recommendations, handleFeedback, loading }) => {
               ))}
             </div>
           ) : (
-            <p className="text-center text-gray-500">
-              No playlists to display yet.
-            </p>
+            <p className="text-center text-gray-500">No playlists to display yet.</p>
           )}
         </div>
       )}
